@@ -1,0 +1,28 @@
+﻿---
+description: Use Codiv OpenJev (TypeSafe-compatible) for all System One / typed decisions across projects
+alwaysApply: true
+---
+
+# Codiv OpenJev (default System One backend)
+
+Route TypeSafe System One calls through **Codiv**, not api.typesafe.ai.
+
+## Required environment
+
+- `TYPESAFE_BASE_URL=https://api.codiv.ai`
+- `TYPESAFE_API_KEY` = Codiv key from the user/environment — never hardcode, never commit, never paste into chat/logs
+
+## When building or calling System One
+
+1. Prefer the TypeSafe skill + official SDKs (`typesafe-sdk` / `@typesafe-ai/sdk`). They read the env vars above.
+2. Default model: `openjev-latest` (aliases `jev-latest` / `jev-preview` also map to OpenJev on Codiv).
+3. Do **not** pin TypeSafe-only ids like `jev-1.13.0` — Codiv returns Unknown model.
+4. Other Codiv System One / listed models (`laya-1.0`, `verdict-1.4`, `clm-v0.1`, `jevk5-0.2`, etc.) are allowed when the task needs them; text generation uses `POST /v1/chat/completions` separately.
+5. Keep questions and thresholds in one reviewable file. Re-check thresholds tuned on commercial Jev — OpenJev probabilities differ.
+6. Never write secrets into project files, rules, or git.
+
+## Docs
+
+- Quickstart: https://codiv.ai/docs/quickstart.md
+- Jev compatibility: https://codiv.ai/docs/guides/jev-compatibility
+- Models: https://codiv.ai/docs/models
