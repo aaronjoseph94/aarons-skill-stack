@@ -11,17 +11,10 @@ Star counts are approximate as of Oct 2026 and move fast on trending repos — t
 
 - [Quick reference](#quick-reference)
 - [Architecture — where each skill sits](#architecture--where-each-skill-sits)
-- [The 10 skills](#the-10-skills)
-  - [1. Superpowers — the workflow backbone](#1-superpowers--the-workflow-backbone)
-  - [2. Matt Pocock's Skills — engineering judgment](#2-matt-pococks-skills--engineering-judgment)
-  - [3. Addy Osmani's Agent Skills — the gated lifecycle](#3-addy-osmanis-agent-skills--the-gated-lifecycle)
-  - [4. Caveman — the token saver](#4-caveman--the-token-saver)
-  - [5. Ponytail — the minimalist](#5-ponytail--the-minimalist)
-  - [6. Agent-Reach — the agent's eyes](#6-agent-reach--the-agents-eyes)
-  - [7. Understand-Anything — the codebase map](#7-understand-anything--the-codebase-map)
-  - [8. UI/UX Pro Max — the taste layer](#8-uiux-pro-max--the-taste-layer)
-  - [9. EvilCharts — dashboard charts that don't look cheap](#9-evilcharts--dashboard-charts-that-dont-look-cheap)
-  - [10. TesterArmy E2E — proof it works](#10-testerarmy-e2e--proof-it-works)
+- [The skill stack](#the-skill-stack)
+  - [Core (1–10)](#core-110)
+  - [Design (11–15)](#design-1115)
+  - [Video (16–18)](#video-1618)
 - [Also worth knowing](#also-worth-knowing)
 - [Install everything at once](#install-everything-at-once)
 - [Push this to GitHub](#push-this-to-github)
@@ -42,6 +35,14 @@ Star counts are approximate as of Oct 2026 and move fast on trending repos — t
 | 8 | [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | 79 UI styles, 192 palettes, design-system generator | Design |
 | 9 | [EvilCharts](https://github.com/legions-developer/evilcharts) | Beautiful animated chart components for dashboards | Design |
 | 10 | [TesterArmy E2E](https://github.com/tester-army/e2e) | AI-driven E2E tests; record once, replay with zero tokens | Verify |
+| 11 | [Impeccable](https://github.com/pbakaus/impeccable) | 24 design commands, PRODUCT.md truth, 60 anti-slop detectors | Design |
+| 12 | [Hallmark](https://github.com/Nutlope/hallmark) | Anti-AI-slop design: themes, audit/redesign/study verbs | Design |
+| 13 | [Taste Skill](https://github.com/Leonxlnx/taste-skill) | Anti-slop frontend + image-gen skills for premium UIs | Design |
+| 14 | [VibeWise](https://github.com/nykooi1/vibe-wise) | Learn-while-building: you design, AI writes, explains | Design |
+| 15 | [Logo Design Skill](https://github.com/kaankiziltug/logo-design-skill) | Logo process + 1,400 SVG reference library + SVG tools | Design |
+| 16 | [Motion Video Kit](https://github.com/echris6/motion-video-kit) | Launch-film craft, critic loop, motion grammar, Three.js | Video |
+| 17 | [Claude Motion Design](https://github.com/howseen-ai/claude-motion-design) | Motion videos in pure code: HTML + Playwright + ffmpeg | Video |
+| 18 | [onetake](https://github.com/feitangyuan/onetake) | Continuous-take product films; continuity oracle | Video |
 
 ---
 
@@ -64,11 +65,21 @@ flowchart TB
         CV["JuliusBrussee/caveman<br/>-65–75% output tokens"]
         PT["DietrichGebert/ponytail<br/>simplest correct implementation"]
     end
-    subgraph L5["LAYER 5 · BUILD — design & components"]
-        UX["nextlevelbuilder/ui-ux-pro-max-skill<br/>design systems · styles · palettes · fonts"]
+    subgraph L5["LAYER 5 · DESIGN — taste, UI, identity"]
+        UX["nextlevelbuilder/ui-ux-pro-max-skill<br/>design systems · styles · palettes"]
         EC["legions-developer/evilcharts<br/>dashboard chart components"]
+        IM["pbakaus/impeccable<br/>24 commands · PRODUCT.md · detectors"]
+        HM["Nutlope/hallmark<br/>anti-slop themes · audit/redesign"]
+        TS["Leonxlnx/taste-skill<br/>anti-slop frontend + image skills"]
+        VW["nykooi1/vibe-wise<br/>learn while AI writes"]
+        LG["kaankiziltug/logo-design-skill<br/>logos · SVG library · audit tools"]
     end
-    subgraph L6["LAYER 6 · VERIFY — prove it works"]
+    subgraph L6["LAYER 6 · VIDEO — motion films in code"]
+        MV["echris6/motion-video-kit<br/>launch films · critic loop"]
+        MD["howseen-ai/claude-motion-design<br/>HTML + Playwright + ffmpeg"]
+        OT["feitangyuan/onetake<br/>continuous-take · continuity oracle"]
+    end
+    subgraph L7["LAYER 7 · VERIFY — prove it works"]
         E2E["tester-army/e2e<br/>AI E2E tests · record & replay<br/>zero-token reruns"]
     end
 
@@ -80,14 +91,24 @@ flowchart TB
     CV --> UX
     PT --> UX
     UX --> EC
-    UX --> E2E
+    UX --> IM
+    IM --> HM
+    HM --> TS
+    TS --> VW
+    VW --> LG
+    LG --> MV
+    MV --> MD
+    MD --> OT
+    OT --> E2E
 ```
 
-**How to read it:** the agent *plans* with Layer 1, *understands* your code and the web with Layer 2, follows *engineering discipline* in Layer 3, writes *terse, minimal code* via Layer 4, builds *designed* UIs in Layer 5, and *proves it works* in Layer 6. Install in layer order — each layer assumes the one above it.
+**How to read it:** the agent *plans* with Layer 1, *understands* your code and the web with Layer 2, follows *engineering discipline* in Layer 3, writes *terse, minimal code* via Layer 4, builds *designed* UIs and identity in Layer 5, ships *motion films* in Layer 6, and *proves product flows work* in Layer 7. Install in layer order — each layer assumes the one above it.
 
 ---
 
-## The 10 skills
+## The skill stack
+
+### Core (1–10)
 
 ### 1. Superpowers — the workflow backbone
 
@@ -286,15 +307,185 @@ await expect(page.getByText('Pro plan active')).toBeVisible();
 
 ---
 
+
+### Design (11–15)
+
+### 11. Impeccable — design commands that stick
+
+🔗 **https://github.com/pbakaus/impeccable** · ~78k stars · Apache-2.0
+
+**What it is.** Design guidance for AI coding agents: **1 skill, 24 commands**, live browser iteration, and **60 deterministic detector rules** for AI-generated frontend tells. Ships a setup flow (`/impeccable init`) that records durable product truth in `PRODUCT.md`, then a shared vocabulary — `polish`, `audit`, `critique`, `distill`, `animate`, `bolder`, `quieter`, and more. Site: [impeccable.style](https://impeccable.style).
+
+**How it helps.** Models default to the same SaaS template tells (Inter, purple gradients, nested cards). Impeccable gives the agent a repeatable design language *and* a non-LLM detector pass so “looks designed” is enforced, not hoped for.
+
+**Where it's useful.** Any UI surface: landing pages, settings, checkout, marketing — especially when you want a command vocabulary instead of one-off prompts.
+
+**Install:** From a project root: `npx impeccable install` (supports `--providers=…` and `--scope=project|global`). Then run `/impeccable init` in your agent. Refresh with `npx impeccable update`.
+
+**Example.**
+> You: `/impeccable critique landing`
+> Agent: reviews hierarchy, clarity, and emotional resonance against PRODUCT.md + DESIGN.md — then `/impeccable polish` before ship, with detector rules catching gray-on-color and nested-card traps.
+
+---
+
+### 12. Hallmark — refuses to look AI-generated
+
+🔗 **https://github.com/Nutlope/hallmark** · ~30k stars · MIT
+
+**What it is.** An anti-AI-slop design skill (Together AI) for Claude Code, Cursor, and Codex. Picks a **macrostructure** for the brief, dresses it in one of **twenty-one themes** (or **Custom** when no catalog theme fits), runs **fifty-seven slop-test gates** plus a pre-emit self-critique. Four verbs: default build, `hallmark audit`, `hallmark redesign`, `hallmark study` (extract DNA from a screenshot/URL). Demo: [usehallmark.com](https://www.usehallmark.com).
+
+**How it helps.** Two pages from Hallmark for two briefs feel like different sites — not colour-swaps of the same template. The slop gates refuse the on-distribution defaults every LLM was trained into.
+
+**Where it's useful.** Marketing pages, product heroes, brand-forward sites where “generic AI UI” is unacceptable.
+
+**Install:** `npx skills add nutlope/hallmark` (re-run to update). Or copy `skills/hallmark/` into your agent’s skills dir / Cursor rules.
+
+**Example.**
+> You: “Build a landing page for a specialty coffee roaster.”
+> Agent (Hallmark): picks a fitting theme + macrostructure, runs the 57-gate slop test, and ships a page that wouldn’t pass as another Inter/purple SaaS clone.
+
+---
+
+### 13. Taste Skill — the anti-slop frontend pack
+
+🔗 **https://github.com/Leonxlnx/taste-skill** · ~93k stars · MIT
+
+**What it is.** Portable Agent Skills that upgrade AI-built interfaces: stronger layout, typography, motion, and spacing — plus **image-generation skills** for reference boards (web, mobile, brand kits). Default install name `design-taste-frontend` (v2). Site: [tasteskill.dev](https://tasteskill.dev).
+
+**How it helps.** Pair image skills (reference boards via ChatGPT Images / similar) with implementation skills so the agent builds toward a visual target instead of inventing boilerplate UI.
+
+**Where it's useful.** Premium frontends, redesigns, and any time you want taste rules + optional image references in one install.
+
+**Install:** `npx skills add https://github.com/Leonxlnx/taste-skill`  
+Single skill: `npx skills add https://github.com/Leonxlnx/taste-skill --skill "design-taste-frontend"`
+
+**Example.**
+> You: “Redesign this pricing page — it looks like every other AI SaaS.”
+> Agent (Taste Skill): loads anti-slop layout/type/motion rules, optionally generates a reference board, then implements a page with intentional hierarchy instead of nested cards and Inter.
+
+> ⚠️ Overlap: if you already run a local `design-taste-frontend` skill from this repo, re-installing upgrades in place — pick one source of truth.
+
+---
+
+### 14. VibeWise — you build, AI writes
+
+🔗 **https://github.com/nykooi1/vibe-wise** · ~2.6k stars · MIT
+
+**What it is.** A Claude Code plugin that puts **learning first** while AI writes the code. Claude asks for *your* approach, helps examine tradeoffs, explains unfamiliar concepts, then implements — and explains what changed and why. Commands like `/vibe-wise:learn`.
+
+**How it helps.** Most agents jump straight to code. VibeWise keeps you in the design seat so you practice planning, anticipating failures, and owning decisions — useful when the “design” work is system design, not just pixels.
+
+**Where it's useful.** Learning a new stack, onboarding onto an unfamiliar repo, or anytime you want the agent to teach while shipping.
+
+**Install** (Claude Code): `/plugin install vibe-wise@anthropic-plugin-directory`  
+Fallback: `/plugin marketplace add nykooi1/vibe-wise` then `/plugin install vibe-wise@vibe-wise`. Requires Python 3. Restart, then `/vibe-wise:learn`.
+
+**Example.**
+> You: “A note can be in several folders. Deleting a folder should delete its notes.”
+> Agent (VibeWise): pauses at a design checkpoint — what happens to a note shared across folders? — records your decision, then writes the links-table implementation and explains it.
+
+---
+
+### 15. Logo Design Skill — identity, not favicon guesses
+
+🔗 **https://github.com/kaankiziltug/logo-design-skill** · ~2.2k stars · MIT
+
+**What it is.** A full logo-design skill for Claude, Gemini CLI, Codex, Cursor, and other agents: discovery → concepts → SVG craft → optical corrections → testing → delivery. Includes a **1,400+ real-world SVG logo reference library** (classified, searchable) and dependency-free Python tools (audit, test sheets, presentation boards, favicon sets). Always **stops at a checkpoint** until you pick a direction.
+
+**How it helps.** Agents invent weak marks and skip testing. This enforces a real identity process — shelf test, 16 px pixel test, one-colour, competitor check — before you invest in a full kit.
+
+**Where it's useful.** Brand marks, wordmarks, app icons, redesigns, and identity systems that need production SVG + guidelines.
+
+**Install** (Claude Code):
+```
+/plugin marketplace add kaankiziltug/logo-design-skill
+/plugin install logo-design@logo-design-skill
+```
+Other agents: clone and copy `skills/logo-design` into your agent’s skills directory (see repo README for Gemini/Codex/Cursor paths).
+
+**Example.**
+> You: “Logo for Kiln, a specialty coffee roaster — warm, crafted, modern.”
+> Agent: researches category conventions in the library, builds greyscale concepts with true 64/32/16 px sizes, recommends one, and **stops** until you pick — then delivers colour, lockups, board, icons, and guidelines.
+
+---
+
+### Video (16–18)
+
+### 16. Motion Video Kit — launch-film craft + critic loop
+
+🔗 **https://github.com/echris6/motion-video-kit** · ~1k stars · MIT
+
+**What it is.** A Claude Code skill kit for premium AI-assisted **business / launch videos**: independent critic loop (“The Gauntlet”), motion principles from **28 launch films**, quality bar (frozen time, loudness, contrast, brand colour), sound design, business-offer playbook, Three.js patterns, and scripts/templates. Works best with HyperFrames but principles are renderer-agnostic.
+
+**How it helps.** AI commercials usually fail the *judgment* loop — the builder grades its own work. This separates builder from critic, with item-by-item verification and a ledger.
+
+**Where it's useful.** SaaS launch films, service commercials, product-spec ads, explainers you’d otherwise brief a motion studio for.
+
+**Install** (Claude Code):
+```bash
+git clone https://github.com/echris6/motion-video-kit.git
+cp -r motion-video-kit/business-motion-film ~/.claude/skills/
+```
+Other LLMs: paste `business-motion-film/SKILL.md` + needed references into context. Requires `ffmpeg`/`ffprobe` for measurement scripts.
+
+**Example.**
+> You: “Make a 30s calm service film for our booking product.”
+> Agent: uses motion grammar + critic prompts, measures frozen-time/loudness, and iterates until the quality bar passes — not just “looks cool in the first draft.”
+
+---
+
+### 17. Claude Motion Design — motion videos in pure code
+
+🔗 **https://github.com/howseen-ai/claude-motion-design** · ~280 stars · MIT
+
+**What it is.** A Claude Code skill to make motion design videos **in pure code**: HTML + Playwright + ffmpeg. No After Effects, no Remotion license. Deterministic `seek(t)` engine, beat-synced scenes, subframe motion blur, audio loudnorm, remake mode for brand 1:1 copies. Site: [howseen.ai](https://howseen.ai).
+
+**How it helps.** “Make the transitions faster” / “change the music” become code changes with identical frames every render — iterable by an agent, free stack (Chromium + ffmpeg + Python).
+
+**Where it's useful.** Launch videos, LinkedIn loops, UI morphs, branded motion — especially when you want a repo of film code, not an editor project.
+
+**Install:**
+```bash
+# from a clone of the repo
+mkdir -p ~/.claude/skills && cp -r skill/motion-design ~/.claude/skills/
+pip install playwright imageio-ffmpeg numpy pillow && python -m playwright install chromium
+```
+Then ask for a video or run `/motion-design`.
+
+**Example.**
+> You: `/motion-design` — “24s launch video, music drop on the product reveal.”
+> Agent: writes a director’s brief, builds `seek(t)`, drafts at 540p, masters with motion blur + peak-placed SFX at −14 LUFS.
+
+---
+
+### 18. onetake — continuous-take product films
+
+🔗 **https://github.com/feitangyuan/onetake** · ~1.8k stars · PolyForm Noncommercial 1.0.0
+
+**What it is.** A Claude Agent Skill for product launch films, teasers, and feature demos where **every beat grows out of the one before** — one continuous camera, not a slideshow of scenes. Continuity is **measured** by an oracle (`probe.py` / verify scripts) before a human watches. Real UI rebuilt in HTML, measured moves, real motion blur, deterministic seeks.
+
+**How it helps.** Most AI motion *replaces* scenes with fades. onetake designs the **boundary** — what survives and becomes the next beat — and rejects films whose carry score is too low.
+
+**Where it's useful.** Product launches and feature demos that must feel cinematic and continuous. ⚠️ **License:** free for **noncommercial** use only (PolyForm Noncommercial) — do not use commercially without a separate license from the author.
+
+**Install:**
+```bash
+git clone https://github.com/feitangyuan/onetake.git ~/.claude/skills/onetake
+# or: git clone https://github.com/feitangyuan/onetake.git ~/.agents/skills/onetake
+```
+
+**Example.**
+> You: “15s feature demo — prompt bar opens into the app, then into the phone, no cuts.”
+> Agent: designs carry boundaries, renders deterministically, runs the continuity oracle — rejects slideshow versions until carry score clears the bar.
+
+---
 ## Also worth knowing
 
-Not in the top 10, but kept on the radar:
+Not in the core ten, but kept on the radar (and distinct from the Design/Video packs above):
 
 - **[alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills)** (~28k stars, MIT) — a mega-library of ~380+ skills across 20 domains: engineering, product, marketing, finance, compliance, even C-level advisor personas. Already vendors Matt Pocock's skills. If you want *everything* including non-coding skills, install this **instead of** #2 — never alongside it.
-- **[nidhinjs/prompt-master](https://github.com/nidhinjs/prompt-master)** (~14k stars, MIT) — a skill that writes optimized, token-frugal prompts for 30+ AI tools (Claude, ChatGPT, Codex, Midjourney, Sora…). Handy if you prompt other tools a lot; not a coding-workflow skill, which is why it sits outside the top 10.
-- **[darwintechlab/openjev](https://github.com/darwintechlab/openjev)** (brand new, MIT) — an Opencode plugin that replaces LLM judgment calls with deterministic typed decisions (`jev_choice`, `jev_noul`, …). Interesting infrastructure idea, but days old and unproven — flagged experimental, revisit in a few months.
-
-> **Open item:** the original list had a **"4"** I couldn't match to any repo — likely a numbering artifact from a "top 10" post. Send the source and I'll slot the right skill in.
+- **[nidhinjs/prompt-master](https://github.com/nidhinjs/prompt-master)** (~14k stars, MIT) — a skill that writes optimized, token-frugal prompts for 30+ AI tools (Claude, ChatGPT, Codex, Midjourney, Sora…). Handy if you prompt other tools a lot; not a coding-workflow skill.
+- **[darwintechlab/openjev](https://github.com/darwintechlab/openjev)** (brand new, MIT) — an Opencode plugin that replaces LLM judgment calls with deterministic typed decisions (`jev_choice`, `jev_noul`, …). Interesting infrastructure idea — flagged experimental; Codiv/OpenJev API defaults for this machine live in `.cursor/rules/codiv-typesafe.mdc`.
 
 ---
 
@@ -307,7 +498,7 @@ The agent-executable sequence lives in [`INSTALL.md`](INSTALL.md); the script is
 ./scripts/install.sh --agent claude --dry-run   # preview first on a new machine
 ```
 
-Install order is deliberate: **workflow → knowledge → discipline → behavior → design → verify**. `tester-army/e2e` installs per-project — the script prints the command but never runs it globally.
+Install order is deliberate: **workflow → knowledge → discipline → behavior → design → video → verify**. `tester-army/e2e` installs per-project — the script prints the command but never runs it globally. Design/Video steps that need Claude plugin UIs or interactive CLIs are noted in `INSTALL.md`.
 
 ## Push this to GitHub
 
