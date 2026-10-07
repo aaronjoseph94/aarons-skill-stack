@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 #
 # Aaron's Skill Stack installer
-# Installs the skill stack from the README, in layer order:
-#   workflow → knowledge → discipline → behavior → design → video → verify
+# Installs the 19 coding-agent skills from the README, in layer order:
+#   standard -> workflow backbone -> knowledge -> discipline -> behavior
+#   -> design -> verify -> secure -> ship
 #
 # Usage:
 #   ./scripts/install.sh --agent <claude|cursor|codex|copilot|generic> [--dry-run] [--project]
@@ -14,7 +15,6 @@
 #   - dry-run first on a new machine
 #   - never install alirezarezvani/claude-skills alongside mattpocock/skills
 #   - tester-army/e2e is per-project only: printed, not run
-#   - onetake is PolyForm Noncommercial — noncommercial use only
 #   - verify each step; report failures, don't skip silently
 
 set -u
@@ -23,16 +23,13 @@ AGENT=""
 DRY_RUN=0
 SCOPE_FLAG="-g"   # npx skills: -g = user-global
 SCOPE_NAME="user-global"
-IMPECCABLE_SCOPE="global"
-SKILLS_HOME="${HOME}/.claude/skills"
-AGENTS_HOME="${HOME}/.agents/skills"
 
 for arg in "$@"; do
   case "$arg" in
     --agent=*) AGENT="${arg#*=}" ;;
     --agent) shift; AGENT="${1:-}" ;;
     --dry-run) DRY_RUN=1 ;;
-    --project) SCOPE_FLAG=""; SCOPE_NAME="current project"; IMPECCABLE_SCOPE="project" ;;
+    --project) SCOPE_FLAG=""; SCOPE_NAME="current project" ;;
     *) ;;
   esac
   shift 2>/dev/null || shift
@@ -43,13 +40,6 @@ case "$AGENT" in
   *)
     echo "Usage: $0 --agent <claude|cursor|codex|copilot|generic> [--dry-run] [--project]"
     exit 1 ;;
-esac
-
-case "$AGENT" in
-  claude) IMPECCABLE_PROVIDERS="claude" ;;
-  cursor) IMPECCABLE_PROVIDERS="cursor" ;;
-  codex) IMPECCABLE_PROVIDERS="codex" ;;
-  *) IMPECCABLE_PROVIDERS="cursor,claude,codex" ;;
 esac
 
 FAILED=()
@@ -80,96 +70,112 @@ echo "scope        : $SCOPE_NAME"
 
 # ---------------------------------------------------------------- step 1: superpowers (workflow backbone)
 if [ "$AGENT" = "claude" ]; then
-  run "1/18 obra/superpowers (Claude Code plugin)" \
+  run "1/19 obra/superpowers (Claude Code plugin)" \
     bash -c "claude plugins marketplace add obra/superpowers-marketplace && claude plugins install superpowers@superpowers-marketplace"
 else
-  run "1/18 obra/superpowers (universal skills)" \
+  run "1/19 obra/superpowers (universal skills)" \
     npx skills@latest add obra/superpowers $SCOPE_FLAG
 fi
 
-# ------------------------------------------------- steps 2-5: universal skills via skills.sh
-run "2/18 mattpocock/skills (engineering discipline)" \
+# ------------------------------------------------- steps 2-5: discipline + behavior (universal)
+run "2/19 mattpocock/skills (engineering discipline)" \
   npx skills@latest add mattpocock/skills $SCOPE_FLAG
 
-run "3/18 addyosmani/agent-skills (gated lifecycle)" \
+run "3/19 addyosmani/agent-skills (gated lifecycle)" \
   npx skills@latest add addyosmani/agent-skills $SCOPE_FLAG
 
-run "4/18 JuliusBrussee/caveman (token efficiency)" \
+run "4/19 JuliusBrussee/caveman (token efficiency)" \
   npx skills@latest add JuliusBrussee/caveman $SCOPE_FLAG
 
-run "5/18 DietrichGebert/ponytail (minimalism)" \
+run "5/19 DietrichGebert/ponytail (minimalism)" \
   npx skills@latest add DietrichGebert/ponytail $SCOPE_FLAG
 
 # ---------------------------------------------------------------- step 6: Agent-Reach (internet access)
-run "6/18 Panniantong/Agent-Reach (internet access)" \
+run "6/19 Panniantong/Agent-Reach (internet access)" \
   bash -c "command -v agent-reach >/dev/null && agent-reach install || { echo 'agent-reach CLI not found - install from https://github.com/Panniantong/Agent-Reach then run: agent-reach install'; exit 1; }"
 note "If the CLI is missing, install it from the repo README, then run: agent-reach install"
 
 # ------------------------------------------------- step 7: Understand-Anything (codebase knowledge)
 if [ "$AGENT" = "claude" ]; then
-  run "7/18 Egonex-AI/Understand-Anything (Claude Code plugin)" \
+  run "7/19 Egonex-AI/Understand-Anything (Claude Code plugin)" \
     bash -c "claude plugins marketplace add Egonex-AI/Understand-Anything && claude plugins install understand-anything"
 else
-  run "7/18 Egonex-AI/Understand-Anything (one-line installer)" \
+  run "7/19 Egonex-AI/Understand-Anything (one-line installer)" \
     bash -c "curl -fsSL https://raw.githubusercontent.com/Egonex-AI/Understand-Anything/main/install.sh | bash -s $AGENT"
 fi
 
+# ---------------------------------------------------------------- step 8: morluto/rea (reverse engineering)
+run "8/19 morluto/rea (reverse engineering)" \
+  npx rea-agents setup
+note "Interactive wizard: review the paths and changes it proposes before approving. Optionally wires up Hopper or an existing Ghidra install."
+
 # ---------------------------------------------------------------- step 8: UI/UX Pro Max (design)
-run "8/18 nextlevelbuilder/ui-ux-pro-max-skill (design intelligence)" \
+run "9/19 nextlevelbuilder/ui-ux-pro-max-skill (design intelligence)" \
   bash -c "npm install -g ui-ux-pro-max-cli && uipro init --ai $AGENT"
 note "Requires Node.js and Python 3. Use 'uipro init --ai all' to target every agent at once."
 
 # ---------------------------------------------------------------- step 9: EvilCharts (components)
-run "9/18 legions-developer/evilcharts (chart components)" \
+run "10/19 legions-developer/evilcharts (chart components)" \
   npx skills@latest add legions-developer/evilcharts $SCOPE_FLAG
 note "Components themselves install shadcn-style when you build a dashboard (see evilcharts.com)."
 
-# ---------------------------------------------------------------- Design pack (10-14)
-run "10/18 pbakaus/impeccable (design commands)" \
-  bash -c "npx impeccable install --scope=$IMPECCABLE_SCOPE --providers=$IMPECCABLE_PROVIDERS"
-note "After install, run /impeccable init inside the agent. Refresh later with: npx impeccable update"
+# ---------------------------------------------------------------- step 10: taste-skill (anti-slop polish)
+run "11/19 Leonxlnx/taste-skill (anti-slop frontend)" \
+  npx skills@latest add Leonxlnx/taste-skill $SCOPE_FLAG
 
-run "11/18 Nutlope/hallmark (anti-slop design)" \
-  npx skills add nutlope/hallmark $SCOPE_FLAG
-
-run "12/18 Leonxlnx/taste-skill (anti-slop frontend)" \
-  npx skills add https://github.com/Leonxlnx/taste-skill $SCOPE_FLAG
-
+# ---------------------------------------------------------------- step 11: diagram-design (diagrams)
 if [ "$AGENT" = "claude" ]; then
-  run "13/18 nykooi1/vibe-wise (learn while building)" \
-    bash -c "claude plugins marketplace add nykooi1/vibe-wise && claude plugins install vibe-wise@vibe-wise"
-  note "Prefer Anthropic Directory when available: /plugin install vibe-wise@anthropic-plugin-directory"
+  run "12/19 cathrynlavery/diagram-design (Claude Code plugin)" \
+    bash -c "claude plugins marketplace add cathrynlavery/diagram-design && claude plugins install diagram-design@diagram-design"
+else
+  run "12/19 cathrynlavery/diagram-design (universal skills)" \
+    npx skills@latest add cathrynlavery/diagram-design $SCOPE_FLAG
+fi
+
+# ---------------------------------------------------------------- step 12: karpathy guidelines
+run "13/19 multica-ai/andrej-karpathy-skills (coding guidelines)" \
+  npx skills@latest add multica-ai/andrej-karpathy-skills $SCOPE_FLAG
+note "Repo moved orgs: forrestchang/ -> multica-ai/. Use multica-ai/ URLs."
+
+# ---------------------------------------------------------------- step 13: i-have-adhd (action-first output)
+run "14/19 ayghri/i-have-adhd (action-first output)" \
+  npx skills@latest add ayghri/i-have-adhd $SCOPE_FLAG
+
+# ---------------------------------------------------------------- step 14: cybersecurity skills library
+run "15/19 mukul975/Anthropic-Cybersecurity-Skills (security knowledge)" \
+  npx skills@latest add mukul975/Anthropic-Cybersecurity-Skills $SCOPE_FLAG
+
+# ---------------------------------------------------------------- step 15: cloudflare security audit
+run "16/19 cloudflare/security-audit-skill (security audit workflow)" \
+  npx skills@latest add https://github.com/cloudflare/security-audit-skill --skill security-audit $SCOPE_FLAG
+
+# ---------------------------------------------------------------- step 16: claude-seo (growth)
+if [ "$AGENT" = "claude" ]; then
+  run "17/19 AgriciDaniel/claude-seo (Claude Code plugin)" \
+    bash -c "claude plugins marketplace add AgriciDaniel/claude-seo && claude plugins install claude-seo@agricidaniel-claude-seo"
+  note "After install, run /seo setup inside Claude Code (interactive)."
 else
   echo ""
-  echo "==> 13/18 nykooi1/vibe-wise (Claude Code plugin — skipped for $AGENT)"
-  note "VibeWise is Claude Code–centric. On Claude Code: /plugin install vibe-wise@anthropic-plugin-directory"
+  echo "==> 17/19 AgriciDaniel/claude-seo (MANUAL - Claude Code is the primary target)"
+  echo "    Clone and run the manual installer from https://github.com/AgriciDaniel/claude-seo"
+  echo "    or install it in Claude Code with:"
+  echo "        /plugin marketplace add AgriciDaniel/claude-seo"
+  echo "        /plugin install claude-seo@agricidaniel-claude-seo"
 fi
 
+# ---------------------------------------------------------------- step 17: anthropics/skills (the standard)
 if [ "$AGENT" = "claude" ]; then
-  run "14/18 kaankiziltug/logo-design-skill (logo identity)" \
-    bash -c "claude plugins marketplace add kaankiziltug/logo-design-skill && claude plugins install logo-design@logo-design-skill"
+  run "18/19 anthropics/skills (official document skills)" \
+    bash -c "claude plugins marketplace add anthropics/skills && claude plugins install document-skills@anthropic-agent-skills"
 else
-  run "14/18 kaankiziltug/logo-design-skill (copy skill folder)" \
-    bash -c "TMP=\$(mktemp -d) && git clone --depth 1 https://github.com/kaankiziltug/logo-design-skill.git \"\$TMP/logo-design-skill\" && mkdir -p \"$AGENTS_HOME\" && cp -R \"\$TMP/logo-design-skill/skills/logo-design\" \"$AGENTS_HOME/logo-design\" && rm -rf \"\$TMP\""
-  note "Copied to $AGENTS_HOME/logo-design — move into your agent's skills dir if needed (see repo README)."
+  run "18/19 anthropics/skills (reference)" \
+    npx skills@latest add anthropics/skills $SCOPE_FLAG
+  note "Document skills (PDF/DOCX/XLSX/PPTX) are Claude-native; other agents get reference value."
 fi
 
-# ---------------------------------------------------------------- Video pack (15-17)
-run "15/18 echris6/motion-video-kit (launch-film craft)" \
-  bash -c "TMP=\$(mktemp -d) && git clone --depth 1 https://github.com/echris6/motion-video-kit.git \"\$TMP/mvk\" && mkdir -p \"$SKILLS_HOME\" \"$AGENTS_HOME\" && cp -R \"\$TMP/mvk/business-motion-film\" \"$SKILLS_HOME/business-motion-film\" && cp -R \"\$TMP/mvk/business-motion-film\" \"$AGENTS_HOME/business-motion-film\" && rm -rf \"\$TMP\""
-note "Requires ffmpeg/ffprobe for measurement scripts. HyperFrames optional for rendering."
-
-run "16/18 howseen-ai/claude-motion-design (HTML+Playwright+ffmpeg)" \
-  bash -c "TMP=\$(mktemp -d) && git clone --depth 1 https://github.com/howseen-ai/claude-motion-design.git \"\$TMP/cmd\" && mkdir -p \"$SKILLS_HOME\" && cp -R \"\$TMP/cmd/skill/motion-design\" \"$SKILLS_HOME/motion-design\" && rm -rf \"\$TMP\" && python3 -m pip install --user playwright imageio-ffmpeg numpy pillow && python3 -m playwright install chromium"
-note "Ask for a video or run /motion-design after install."
-
-run "17/18 feitangyuan/onetake (continuous-take films)" \
-  bash -c "mkdir -p \"$SKILLS_HOME\" \"$AGENTS_HOME\" && if [ ! -d \"$SKILLS_HOME/onetake/.git\" ]; then git clone --depth 1 https://github.com/feitangyuan/onetake.git \"$SKILLS_HOME/onetake\"; else git -C \"$SKILLS_HOME/onetake\" pull --ff-only; fi && if [ ! -d \"$AGENTS_HOME/onetake/.git\" ]; then git clone --depth 1 https://github.com/feitangyuan/onetake.git \"$AGENTS_HOME/onetake\"; else git -C \"$AGENTS_HOME/onetake\" pull --ff-only; fi"
-note "LICENSE: PolyForm Noncommercial 1.0.0 — noncommercial use only unless you obtain a commercial license."
-
-# ---------------------------------------------------------------- step 18: tester-army/e2e (per-project - printed only)
+# ---------------------------------------------------------------- step 19: tester-army/e2e (per-project - printed only)
 echo ""
-echo "==> 18/18 tester-army/e2e (PER-PROJECT ONLY - not run)"
+echo "==> 19/19 tester-army/e2e (PER-PROJECT ONLY - not run)"
 echo "    Run inside each project that needs E2E tests:"
 echo "        npx e2e init"
 note "This step is intentionally never run globally."
@@ -178,7 +184,7 @@ note "This step is intentionally never run globally."
 echo ""
 echo "==================== SUMMARY ===================="
 if [ "${#FAILED[@]}" -eq 0 ]; then
-  echo "All steps completed (or noted)."
+  echo "All steps completed."
 else
   echo "These steps FAILED - investigate before continuing:"
   for f in "${FAILED[@]}"; do echo "  - $f"; done
@@ -188,6 +194,6 @@ echo ""
 echo "Next:"
 echo "  1. In a fresh agent session, confirm skills loaded (e.g. ask the agent to list its skills)."
 echo "  2. Per repo, run: /understand  (Understand-Anything builds the knowledge graph)"
-echo "  3. Per UI project: /impeccable init"
-echo "  4. Per project needing tests: npx e2e init"
+echo "  3. Per project needing tests: npx e2e init"
+echo "  4. Before launch: ask the agent to 'security audit this codebase' (Cloudflare audit skill)"
 echo "See INSTALL.md for the manual fallback and the rules."
