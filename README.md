@@ -10,8 +10,9 @@ Star counts are approximate as of Oct 2026 and move fast on trending repos — t
 ## Contents
 
 - [Quick reference](#quick-reference)
+- [For agents & LLM harnesses — how to build with this stack](#for-agents--llm-harnesses--how-to-build-with-this-stack)
 - [Architecture — where each skill sits](#architecture--where-each-skill-sits)
-- [The stack — 19 skills](#the-stack--19-skills)
+- [The stack — 20 skills](#the-stack--20-skills)
 - [Also worth knowing](#also-worth-knowing)
 - [Install everything at once](#install-everything-at-once)
 - [Push this to GitHub](#push-this-to-github)
@@ -41,13 +42,29 @@ Star counts are approximate as of Oct 2026 and move fast on trending repos — t
 | 17 | [Anthropic Skills (official)](https://github.com/anthropics/skills) | The Agent Skills standard reference + document skills (PDF/DOCX/…) | Meta |
 | 18 | [TesterArmy E2E](https://github.com/tester-army/e2e) | AI-driven E2E tests; record once, replay with zero tokens | Verify |
 | 19 | [REA](https://github.com/morluto/rea) | Reverse-engineer any app or binary: see a feature → rebuild it | Knowledge |
+| 20 | [Engineering Workflow](skills/engineering-workflow/SKILL.md) | The build sequence + 20 copy-paste prompts every agent follows; harness-agnostic | Orchestration |
 
 ---
+
+## For agents & LLM harnesses — how to build with this stack
+
+If you are an AI agent (or the harness running one) and you are about to build in a project that uses this stack, follow the engineering workflow — skill #20:
+
+1. Make sure the workflow templates are installed in the project: [`skills/engineering-workflow/AGENTS.md`](skills/engineering-workflow/AGENTS.md) copied to the project root, [`skills/engineering-workflow/ENGINEERING-WORKFLOW.md`](skills/engineering-workflow/ENGINEERING-WORKFLOW.md) copied to `docs/`, and [`skills/engineering-workflow/CLAUDE.md`](skills/engineering-workflow/CLAUDE.md) copied to the project root and filled in with the project's stack, rails, conventions, and commands.
+2. Read the project rules file and progress notes first. They override the workflow where they differ.
+3. Name the scenario from `docs/ENGINEERING-WORKFLOW.md` you are following, then load that scenario's skills from this stack.
+4. Follow the scenario's steps as written. If your harness cannot load skills, follow the words instead — every step says what to do.
+5. Standing rules: no mid-task questions unless safety, a spec decision, or money is at stake; simplest change that works; never claim something works without evidence (paste the command and its real output); never put a secret in code, a commit, a log, or the chat; finish with a plain-English summary.
+
+The full phase sequence and the 20 copy-paste prompts live in [`ENGINEERING-WORKFLOW.md`](skills/engineering-workflow/ENGINEERING-WORKFLOW.md) — that file is the source of truth.
 
 ## Architecture — where each skill sits
 
 ```mermaid
 flowchart TB
+    subgraph L0["LAYER 0 · ORCHESTRATION — follow this when you build"]
+        EW["engineering-workflow<br/>the build sequence + 20 prompts<br/>harness-agnostic (this repo)"]
+    end
     subgraph META["META · THE STANDARD"]
         AN["anthropics/skills<br/>official Agent Skills reference<br/>document skills (PDF/DOCX/XLSX/PPTX)"]
     end
@@ -86,6 +103,7 @@ flowchart TB
         SEO["AgriciDaniel/claude-seo<br/>technical SEO · schema · GEO/AI search"]
     end
 
+    EW -. orchestrates .-> SP
     AN -. the standard behind .-> SP
     SP --> UA
     SP --> AR
@@ -107,11 +125,11 @@ flowchart TB
     UX --> SEO
 ```
 
-**How to read it:** the agent *plans* with Layer 1, *understands* your code, the web, and any app with Layer 2, follows *engineering discipline* in Layer 3, writes *terse, minimal, action-oriented* code via Layer 4, builds *designed* UIs and visuals in Layer 5, *proves it works* in Layer 6, *secures it* in Layer 7, and *ships it to be found* in Layer 8. Install in layer order — each layer assumes the one above it.
+**How to read it:** the agent *orchestrates* every build with Layer 0, *plans* with Layer 1, *understands* your code, the web, and any app with Layer 2, follows *engineering discipline* in Layer 3, writes *terse, minimal, action-oriented* code via Layer 4, builds *designed* UIs and visuals in Layer 5, *proves it works* in Layer 6, *secures it* in Layer 7, and *ships it to be found* in Layer 8. Install in layer order — each layer assumes the one above it.
 
 ---
 
-## The stack — 19 skills
+## The stack — 20 skills
 
 ### 1. Superpowers — the workflow backbone
 
@@ -495,6 +513,29 @@ This app's infinite-scroll feed is buttery smooth — figure out how they do it 
 
 ---
 
+### 20. Engineering Workflow — the orchestration layer
+
+🔗 **`skills/engineering-workflow/`** (in this repo) · Aaron's own — no upstream to install
+
+**What it is.** The harness-agnostic build sequence every agent on this stack follows: a 10-phase order for using the skills (0 Start → 1 Understand → 2 Design → 3 Plan → 4 Build → 5 Debug → 6 Verify → 7 Review → 8 Audit → 9 Ship) plus **20 copy-paste prompts**, one per scenario — new feature, bug fix, refactor, security review, deploy, handoff, and more. Each step names the stack skills to load *and* says what to do, so it works in Claude Code, Cursor, Codex, DeepSeek, or any agent: tools with skill support load them, tools without follow the words.
+
+**How it helps.** Nineteen skills with no conductor is a shelf of instruments. This is the score — it decides which skills play, in which order, for each kind of job, and stops the agent improvising a different process every session.
+
+**Where it's useful.** Every project you want built the same way on every machine and every harness. Copy the templates in once; every agent follows them from then on.
+
+**Install** (per project — copy the templates, then fill in `CLAUDE.md`):
+```bash
+cp skills/engineering-workflow/AGENTS.md <project>/AGENTS.md
+cp skills/engineering-workflow/CLAUDE.md <project>/CLAUDE.md        # fill in: stack, rails, conventions, commands
+mkdir -p <project>/docs && cp skills/engineering-workflow/ENGINEERING-WORKFLOW.md <project>/docs/
+```
+
+**Example.**
+> You: "Add rate limiting to the API."
+> Agent (with the workflow): names the scenario first — "New feature" — loads `brainstorming` and `codebase-design`, agrees the "done" criteria with you, writes the plan with exact files and one test per task, builds test-first, verifies with real output, reviews, and commits. Same sequence in Cursor, Codex, or Claude Code.
+
+---
+
 ## Also worth knowing
 
 Not in the stack, but kept on the radar:
@@ -516,7 +557,7 @@ The agent-executable sequence lives in [`INSTALL.md`](INSTALL.md); the script is
 ./scripts/install.sh --agent claude --dry-run   # preview first on a new machine
 ```
 
-Install order is deliberate: **standard → workflow → knowledge → discipline → behavior → design → verify → secure → ship**. `tester-army/e2e` installs per-project — the script prints the command but never runs it globally.
+Install order is deliberate: **orchestration → standard → workflow → knowledge → discipline → behavior → design → verify → secure → ship**. `tester-army/e2e` installs per-project — the script prints the command but never runs it globally. The engineering workflow templates (skill #20) are likewise per-project — the script prints the copy commands.
 
 ## Push this to GitHub
 
