@@ -36,6 +36,13 @@ This file is written for the coding agent to follow directly. Human alternative:
 | 18 | anthropics/skills | Claude: marketplace add + install document-skills. Others: `npx skills@latest add anthropics/skills` |
 | 19 | tester-army/e2e | ⚠️ **per-project only** — the script prints the command but does not run it: `npx e2e init` inside each project |
 | 20 | engineering-workflow (this repo) | ⚠️ **per-project only** — the script prints the template copy commands: `AGENTS.md` → project root, `ENGINEERING-WORKFLOW.md` → `docs/`, `CLAUDE.md` → project root (fill in) |
+| 21 | pbakaus/impeccable | `npx impeccable install --scope=global` (or project); then `/impeccable init` in-agent |
+| 22 | Nutlope/hallmark | `npx skills add nutlope/hallmark` |
+| 23 | nykooi1/vibe-wise | Claude only: `/plugin install vibe-wise@anthropic-plugin-directory` (script prints for other agents) |
+| 24 | kaankiziltug/logo-design-skill | Claude: marketplace + plugin. Others: clone + copy `skills/logo-design` |
+| 25 | echris6/motion-video-kit | Clone + copy `business-motion-film` into Claude/agent skills dir |
+| 26 | howseen-ai/claude-motion-design | Clone + copy `skill/motion-design`; pip + Playwright Chromium |
+| 27 | feitangyuan/onetake | Clone into `~/.claude/skills/onetake` or `~/.agents/skills/onetake` — **noncommercial license** |
 
 ## Rules the agent must follow
 
@@ -43,8 +50,9 @@ This file is written for the coding agent to follow directly. Human alternative:
 2. **Do not install `alirezarezvani/claude-skills` alongside `mattpocock/skills`.** It vendors Pocock's skills — pick one (this stack picks Pocock).
 3. **Steps 19 and 20 are per-project.** Never run `npx e2e init` globally; copy the workflow templates per project instead of installing them.
 4. **Verify each step.** After install, confirm the skill directory exists (`~/.claude/skills/`, `.agents/skills/`, or the target's skills dir) before moving to the next step. Report any step that fails instead of skipping silently.
-5. **Interactive steps need the human.** Steps 1, 7, 12, 17, and 18 (Claude plugin installs) plus steps 6 and 8 may prompt — if they do, pause and surface the prompt to the user rather than guessing.
+5. **Interactive steps need the human.** Steps 1, 7, 12, 17, 18, 23, and 24 (Claude plugin installs) plus steps 6, 8, and 21 may prompt — if they do, pause and surface the prompt to the user rather than guessing.
 
 ## Manual fallback
 
-If the script can't run on a machine, the per-skill install commands are in the [README skill cards](README.md#the-stack--20-skills), in the same order.
+If the script can't run on a machine, the per-skill install commands are in the [README skill cards](README.md#the-stack--27-skills), in the same order.
+6. **onetake is PolyForm Noncommercial.** Do not use it for commercial work without a separate license from the author.
