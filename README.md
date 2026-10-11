@@ -12,7 +12,7 @@ Star counts are approximate as of Oct 2026 and move fast on trending repos — t
 - [Quick reference](#quick-reference)
 - [For agents & LLM harnesses — how to build with this stack](#for-agents--llm-harnesses--how-to-build-with-this-stack)
 - [Architecture — where each skill sits](#architecture--where-each-skill-sits)
-- [The stack — 27 skills](#the-stack--27-skills)
+- [The stack — 28 skills](#the-stack--28-skills)
 - [Also worth knowing](#also-worth-knowing)
 - [Install everything at once](#install-everything-at-once)
 - [Push this to GitHub](#push-this-to-github)
@@ -50,6 +50,7 @@ Star counts are approximate as of Oct 2026 and move fast on trending repos — t
 | 25 | [Motion Video Kit](https://github.com/echris6/motion-video-kit) | Launch-film craft, critic loop, motion grammar, Three.js | Video |
 | 26 | [Claude Motion Design](https://github.com/howseen-ai/claude-motion-design) | Motion videos in pure code: HTML + Playwright + ffmpeg | Video |
 | 27 | [onetake](https://github.com/feitangyuan/onetake) | Continuous-take product films; continuity oracle | Video |
+| 28 | [HyperFrames](https://github.com/heygen-com/hyperframes) | HTML-to-video renderer: CLI, catalog, agent skills, deterministic output | Video |
 
 ---
 
@@ -117,6 +118,7 @@ flowchart TB
         MV["echris6/motion-video-kit<br/>launch films · critic loop"]
         MD["howseen-ai/claude-motion-design<br/>HTML + Playwright + ffmpeg"]
         OT["feitangyuan/onetake<br/>continuous-take · continuity oracle"]
+        HF["heygen-com/hyperframes<br/>HTML-to-video engine<br/>CLI · catalog · agent skills"]
     end
 
     EW -. orchestrates .-> SP
@@ -141,6 +143,7 @@ flowchart TB
     LG --> MV
     MV --> MD
     MD --> OT
+    OT --> HF
     UX --> E2E
     DD -. visuals for docs & planning .-> MP
     UA --> CA
@@ -152,7 +155,7 @@ flowchart TB
 
 ---
 
-## The stack — 27 skills
+## The stack — 28 skills
 
 ### 1. Superpowers — the workflow backbone
 
@@ -712,6 +715,22 @@ git clone https://github.com/feitangyuan/onetake.git ~/.claude/skills/onetake
 > You: “15s feature demo — prompt bar opens into the app, then into the phone, no cuts.”
 > Agent: designs carry boundaries, renders deterministically, runs the continuity oracle — rejects slideshow versions until carry score clears the bar.
 
+
+### 28. HyperFrames — HTML-to-video, built for agents
+
+🔗 **https://github.com/heygen-com/hyperframes** · ~50k stars · Apache-2.0
+
+**What it is.** The open-source HTML-to-video rendering engine, built for agents: write a video as HTML with data attributes, and headless Chrome seeks each frame while FFmpeg encodes — deterministic, so the same input always produces the same video. Ships a CLI (scaffold, preview, lint, render), a catalog of reusable blocks (transitions, overlays, captions, charts, effects), agent skills with creation workflows (`/product-launch-video`, `/faceless-explainer`, `/motion-graphics`, `/music-to-video`…), a Studio preview UI, and cloud/Lambda rendering for zero-infrastructure or distributed renders.
+
+**How it helps.** The video packs (#25–27) design films in code; HyperFrames is the renderer underneath — the Motion Video Kit card even notes it works best with HyperFrames. Deterministic output means renders are CI-safe and regression-testable, not one-off artifacts.
+
+**Where it's useful.** Product launch videos, explainers, motion graphics, site tours — any HTML-native video an agent builds.
+
+**Install:** `npx skills add heygen-com/hyperframes`
+
+**Example.**
+> You: "Turn this landing page into a 30-second launch video."
+> Agent (with HyperFrames): captures the site's own screens, composes the scenes in HTML with GSAP motion, and renders a deterministic MP4 — same frames every render, editable as code afterward.
 
 ---
 

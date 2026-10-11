@@ -43,6 +43,7 @@ This file is written for the coding agent to follow directly. Human alternative:
 | 25 | echris6/motion-video-kit | Clone + copy `business-motion-film` into Claude/agent skills dir |
 | 26 | howseen-ai/claude-motion-design | Clone + copy `skill/motion-design`; pip + Playwright Chromium |
 | 27 | feitangyuan/onetake | Clone into `~/.claude/skills/onetake` or `~/.agents/skills/onetake` — **noncommercial license** |
+| 28 | heygen-com/hyperframes | `npx skills add heygen-com/hyperframes` (renders via headless Chrome + FFmpeg) |
 
 ## Rules the agent must follow
 
@@ -54,5 +55,5 @@ This file is written for the coding agent to follow directly. Human alternative:
 
 ## Manual fallback
 
-If the script can't run on a machine, the per-skill install commands are in the [README skill cards](README.md#the-stack--27-skills), in the same order.
+If the script can't run on a machine, the per-skill install commands are in the [README skill cards](README.md#the-stack--28-skills), in the same order.
 6. **onetake is PolyForm Noncommercial.** Do not use it for commercial work without a separate license from the author.
