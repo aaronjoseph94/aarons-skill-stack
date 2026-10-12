@@ -167,12 +167,15 @@ flowchart TB
 
 **Where it's useful.** Any non-trivial task — features, refactors, bug fixes, anything spanning more than a couple of files.
 
-**Install** (Claude Code):
+**Install** (Claude Code — v7.0.0 lists it on Anthropic's official marketplace):
 ```
-/plugin marketplace add obra/superpowers-marketplace
-/plugin install superpowers@superpowers-marketplace
+/plugin install superpowers@claude-plugins-official
 ```
+(via the Superpowers marketplace instead: `/plugin marketplace add obra/superpowers-marketplace`, then `/plugin install superpowers@superpowers-marketplace`.)
+Antigravity: `agy plugin install https://github.com/obra/superpowers`
 Other agents: `npx skills@latest add obra/superpowers -g`
+
+> v7.0.0 (Oct 2026): rebuilt brainstorming; added Antigravity support; now installable from Anthropic's official plugin marketplace.
 
 **Example.**
 > You: "Add user authentication to the API."

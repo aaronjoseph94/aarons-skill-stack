@@ -16,7 +16,7 @@ This file is written for the coding agent to follow directly. Human alternative:
 
 | Step | Skill | Method |
 |------|-------|--------|
-| 1 | obra/superpowers | Claude: `claude plugins marketplace add` + install. Others: `npx skills@latest add obra/superpowers` |
+| 1 | obra/superpowers | Claude: `claude plugins install superpowers@claude-plugins-official`. Others: `npx skills@latest add obra/superpowers` |
 | 2 | mattpocock/skills | `npx skills@latest add mattpocock/skills` |
 | 3 | addyosmani/agent-skills | `npx skills@latest add addyosmani/agent-skills` |
 | 4 | JuliusBrussee/caveman | `npx skills@latest add JuliusBrussee/caveman` |

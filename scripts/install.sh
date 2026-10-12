@@ -85,7 +85,7 @@ echo "scope        : $SCOPE_NAME"
 # ---------------------------------------------------------------- step 1: superpowers (workflow backbone)
 if [ "$AGENT" = "claude" ]; then
   run "1/28 obra/superpowers (Claude Code plugin)" \
-    bash -c "claude plugins marketplace add obra/superpowers-marketplace && claude plugins install superpowers@superpowers-marketplace"
+    bash -c "claude plugins install superpowers@claude-plugins-official"
 else
   run "1/28 obra/superpowers (universal skills)" \
     npx skills@latest add obra/superpowers $SCOPE_FLAG
