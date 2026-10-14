@@ -12,7 +12,7 @@ Star counts are approximate as of Oct 2026 and move fast on trending repos — t
 - [Quick reference](#quick-reference)
 - [For agents & LLM harnesses — how to build with this stack](#for-agents--llm-harnesses--how-to-build-with-this-stack)
 - [Architecture — where each skill sits](#architecture--where-each-skill-sits)
-- [The stack — 28 skills](#the-stack--28-skills)
+- [The stack — 29 skills](#the-stack--29-skills)
 - [Also worth knowing](#also-worth-knowing)
 - [Install everything at once](#install-everything-at-once)
 - [Push this to GitHub](#push-this-to-github)
@@ -51,6 +51,7 @@ Star counts are approximate as of Oct 2026 and move fast on trending repos — t
 | 26 | [Claude Motion Design](https://github.com/howseen-ai/claude-motion-design) | Motion videos in pure code: HTML + Playwright + ffmpeg | Video |
 | 27 | [onetake](https://github.com/feitangyuan/onetake) | Continuous-take product films; continuity oracle | Video |
 | 28 | [HyperFrames](https://github.com/heygen-com/hyperframes) | HTML-to-video renderer: CLI, catalog, agent skills, deterministic output | Video |
+| 29 | [ECC](https://github.com/affaan-m/ECC) | Agent harness OS: agents, skills, hooks, memory, AgentShield | Harness |
 
 ---
 
@@ -78,6 +79,7 @@ flowchart TB
     end
     subgraph L1["LAYER 1 · WORKFLOW BACKBONE — install first"]
         SP["obra/superpowers<br/>brainstorm → plan → execute<br/>TDD · debugging · code review"]
+        ECC["affaan-m/ECC<br/>harness OS · agents · hooks · memory<br/>AgentShield"]
     end
     subgraph L2["LAYER 2 · KNOWLEDGE — what the agent knows"]
         UA["Egonex-AI/Understand-Anything<br/>knowledge graph of YOUR codebase"]
@@ -126,6 +128,7 @@ flowchart TB
     SP --> UA
     SP --> AR
     SP --> REA
+    ECC -. optional harness OS beside .-> SP
     REA -. see a feature → rebuild it .-> UX
     UA --> MP
     MP --> CV
@@ -151,11 +154,11 @@ flowchart TB
     UX --> SEO
 ```
 
-**How to read it:** the agent *orchestrates* every build with Layer 0, *plans* with Layer 1, *understands* your code, the web, and any app with Layer 2, follows *engineering discipline* in Layer 3, writes *terse, minimal, action-oriented* code via Layer 4, builds *designed* UIs and visuals in Layer 5, *proves it works* in Layer 6, *secures it* in Layer 7, and *ships it to be found* in Layer 8, and crafts *motion films* in Layer 9. Install in layer order — each layer assumes the one above it.
+**How to read it:** the agent *orchestrates* every build with Layer 0, *plans* with Layer 1 (Superpowers; ECC is the optional full harness OS beside it), *understands* your code, the web, and any app with Layer 2, follows *engineering discipline* in Layer 3, writes *terse, minimal, action-oriented* code via Layer 4, builds *designed* UIs and visuals in Layer 5, *proves it works* in Layer 6, *secures it* in Layer 7, and *ships it to be found* in Layer 8, and crafts *motion films* in Layer 9. Install in layer order — each layer assumes the one above it.
 
 ---
 
-## The stack — 28 skills
+## The stack — 29 skills
 
 ### 1. Superpowers — the workflow backbone
 
@@ -734,6 +737,38 @@ git clone https://github.com/feitangyuan/onetake.git ~/.claude/skills/onetake
 **Example.**
 > You: "Turn this landing page into a 30-second launch video."
 > Agent (with HyperFrames): captures the site's own screens, composes the scenes in HTML with GSAP motion, and renders a deterministic MP4 — same frames every render, editable as code afterward.
+
+---
+
+### 29. ECC — the agent harness operating system
+
+🔗 **https://github.com/affaan-m/ECC** · ~280k stars · MIT · site: [ecc.tools](https://ecc.tools)
+
+**What it is.** A harness-native agent OS for Claude Code, Codex, Cursor, OpenCode, Gemini, and friends: **71 agents, 311 skills, hooks, rules, memory/continuous learning, and AgentShield** security scanning. Loop: `plan → test → implement → review → verify → remember → improve`. Install once via `ecc-universal`; the agent inherits the coordinated toolbox instead of rebuilding process in every prompt.
+
+**How it helps.** Superpowers / Pocock / Osmani each cover a slice of process. ECC is the full harness layer — specialized agents, hook enforcement, cross-session memory, and security scanning — when you want the operating system, not just a skill pack.
+
+**Where it's useful.** Daily multi-harness work, long-running projects that need memory, and teams that want one install path across Claude Code + Cursor + Codex.
+
+**Install** (recommended guided wizard):
+```bash
+npx ecc-universal install --guided
+```
+Non-interactive defaults:
+```bash
+# Claude Code plugin (user scope, standard hooks)
+npx ecc-universal@2.2.3 setup --mode claude-plugin --scope user --hooks standard --yes
+
+# Cursor developer profile into ~/.cursor (run from $HOME)
+cd ~ && npx ecc-universal@2.2.3 install --profile developer --target cursor --enable-hooks
+```
+Refresh later: `npx ecc-universal auto-update`. Cursor adapter is project-scoped by design; installing from `$HOME` puts the managed files under `~/.cursor/`. Restart Claude Code (`/reload-plugins`) after plugin setup.
+
+> ⚠️ Overlap: ECC ships its own planning/TDD/review surface. Keep Superpowers + Pocock + Osmani if you already rely on them; treat ECC as the harness OS beside Layer 1, not a silent replacement. Prefer official sources only (`affaan-m/ECC`, `ecc-universal` on npm).
+
+**Example.**
+> You: "Ship the auth refactor safely."
+> Agent (with ECC): picks a planner/reviewer agent pair, runs hook-gated checks, writes a session summary into ECC memory, and AgentShield flags a risky MCP permission before merge.
 
 ---
 

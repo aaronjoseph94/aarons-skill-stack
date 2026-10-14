@@ -44,6 +44,7 @@ This file is written for the coding agent to follow directly. Human alternative:
 | 26 | howseen-ai/claude-motion-design | Clone + copy `skill/motion-design`; pip + Playwright Chromium |
 | 27 | feitangyuan/onetake | Clone into `~/.claude/skills/onetake` or `~/.agents/skills/onetake` — **noncommercial license** |
 | 28 | heygen-com/hyperframes | `npx skills add heygen-com/hyperframes` (renders via headless Chrome + FFmpeg) |
+| 29 | affaan-m/ECC (`ecc-universal`) | Guided: `npx ecc-universal install --guided`. Claude: `npx ecc-universal setup --mode claude-plugin --scope user --hooks standard --yes`. Cursor: from `$HOME`, `npx ecc-universal install --profile developer --target cursor --enable-hooks` |
 
 ## Rules the agent must follow
 
@@ -52,8 +53,10 @@ This file is written for the coding agent to follow directly. Human alternative:
 3. **Steps 19 and 20 are per-project.** Never run `npx e2e init` globally; copy the workflow templates per project instead of installing them.
 4. **Verify each step.** After install, confirm the skill directory exists (`~/.claude/skills/`, `.agents/skills/`, or the target's skills dir) before moving to the next step. Report any step that fails instead of skipping silently.
 5. **Interactive steps need the human.** Steps 1, 7, 12, 17, 18, 23, and 24 (Claude plugin installs) plus steps 6, 8, and 21 may prompt — if they do, pause and surface the prompt to the user rather than guessing.
+6. **onetake is PolyForm Noncommercial.** Do not use it for commercial work without a separate license from the author.
+7. **VibeWise is Claude Code–centric.** On Cursor/Codex/Copilot the script notes the limitation; don't invent a broken install path.
+8. **ECC is optional beside Superpowers.** Install from official sources only (`affaan-m/ECC`, npm `ecc-universal`). Cursor is project-scoped — run the Cursor profile from `$HOME` to land files in `~/.cursor/`. Do not commit ECC-managed `.cursor/` noise into this skill-stack repo.
 
 ## Manual fallback
 
-If the script can't run on a machine, the per-skill install commands are in the [README skill cards](README.md#the-stack--28-skills), in the same order.
-6. **onetake is PolyForm Noncommercial.** Do not use it for commercial work without a separate license from the author.
+If the script can't run on a machine, the per-skill install commands are in the [README skill cards](README.md#the-stack--29-skills), in the same order.
