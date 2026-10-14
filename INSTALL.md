@@ -44,7 +44,8 @@ This file is written for the coding agent to follow directly. Human alternative:
 | 26 | howseen-ai/claude-motion-design | Clone + copy `skill/motion-design`; pip + Playwright Chromium |
 | 27 | feitangyuan/onetake | Clone into `~/.claude/skills/onetake` or `~/.agents/skills/onetake` — **noncommercial license** |
 | 28 | heygen-com/hyperframes | `npx skills add heygen-com/hyperframes` (renders via headless Chrome + FFmpeg) |
-| 29 | affaan-m/ECC (`ecc-universal`) | Guided: `npx ecc-universal install --guided`. Claude: `npx ecc-universal setup --mode claude-plugin --scope user --hooks standard --yes`. Cursor: from `$HOME`, `npx ecc-universal install --profile developer --target cursor --enable-hooks` |
+| 29 | AbubakrChan/product-launch-motion | `npx skills add AbubakrChan/product-launch-motion` (URL → 60 fps launch film; Playwright + ffmpeg; best with Opus) |
+| 30 | affaan-m/ECC (`ecc-universal`) | Guided: `npx ecc-universal install --guided`. Claude: `npx ecc-universal setup --mode claude-plugin --scope user --hooks standard --yes`. Cursor: from `$HOME`, `npx ecc-universal install --profile developer --target cursor --enable-hooks` |
 
 ## Rules the agent must follow
 
@@ -59,4 +60,4 @@ This file is written for the coding agent to follow directly. Human alternative:
 
 ## Manual fallback
 
-If the script can't run on a machine, the per-skill install commands are in the [README skill cards](README.md#the-stack--29-skills), in the same order.
+If the script can't run on a machine, the per-skill install commands are in the [README skill cards](README.md#the-stack--30-skills), in the same order.

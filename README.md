@@ -12,7 +12,7 @@ Star counts are approximate as of Oct 2026 and move fast on trending repos — t
 - [Quick reference](#quick-reference)
 - [For agents & LLM harnesses — how to build with this stack](#for-agents--llm-harnesses--how-to-build-with-this-stack)
 - [Architecture — where each skill sits](#architecture--where-each-skill-sits)
-- [The stack — 29 skills](#the-stack--29-skills)
+- [The stack — 30 skills](#the-stack--30-skills)
 - [Also worth knowing](#also-worth-knowing)
 - [Install everything at once](#install-everything-at-once)
 - [Push this to GitHub](#push-this-to-github)
@@ -51,7 +51,8 @@ Star counts are approximate as of Oct 2026 and move fast on trending repos — t
 | 26 | [Claude Motion Design](https://github.com/howseen-ai/claude-motion-design) | Motion videos in pure code: HTML + Playwright + ffmpeg | Video |
 | 27 | [onetake](https://github.com/feitangyuan/onetake) | Continuous-take product films; continuity oracle | Video |
 | 28 | [HyperFrames](https://github.com/heygen-com/hyperframes) | HTML-to-video renderer: CLI, catalog, agent skills, deterministic output | Video |
-| 29 | [ECC](https://github.com/affaan-m/ECC) | Agent harness OS: agents, skills, hooks, memory, AgentShield | Harness |
+| 29 | [Product Launch Motion](https://github.com/AbubakrChan/product-launch-motion) | URL → Dribbble-level launch film: one-shape morphs, beat-synced SFX, 60 fps | Video |
+| 30 | [ECC](https://github.com/affaan-m/ECC) | Agent harness OS: agents, skills, hooks, memory, AgentShield | Harness |
 
 ---
 
@@ -121,6 +122,7 @@ flowchart TB
         MD["howseen-ai/claude-motion-design<br/>HTML + Playwright + ffmpeg"]
         OT["feitangyuan/onetake<br/>continuous-take · continuity oracle"]
         HF["heygen-com/hyperframes<br/>HTML-to-video engine<br/>CLI · catalog · agent skills"]
+        PL["AbubakrChan/product-launch-motion<br/>URL → launch film<br/>one-shape · springs · 60 fps"]
     end
 
     EW -. orchestrates .-> SP
@@ -147,6 +149,7 @@ flowchart TB
     MV --> MD
     MD --> OT
     OT --> HF
+    HF --> PL
     UX --> E2E
     DD -. visuals for docs & planning .-> MP
     UA --> CA
@@ -158,7 +161,7 @@ flowchart TB
 
 ---
 
-## The stack — 29 skills
+## The stack — 30 skills
 
 ### 1. Superpowers — the workflow backbone
 
@@ -650,7 +653,7 @@ Other agents: clone and copy `skills/logo-design` into your agent’s skills dir
 
 ---
 
-### Video packs (25–27)
+### Video packs (25–29)
 
 ### 25. Motion Video Kit — launch-film craft + critic loop
 
@@ -728,7 +731,7 @@ git clone https://github.com/feitangyuan/onetake.git ~/.claude/skills/onetake
 
 **What it is.** The open-source HTML-to-video rendering engine, built for agents: write a video as HTML with data attributes, and headless Chrome seeks each frame while FFmpeg encodes — deterministic, so the same input always produces the same video. Ships a CLI (scaffold, preview, lint, render), a catalog of reusable blocks (transitions, overlays, captions, charts, effects), agent skills with creation workflows (`/product-launch-video`, `/faceless-explainer`, `/motion-graphics`, `/music-to-video`…), a Studio preview UI, and cloud/Lambda rendering for zero-infrastructure or distributed renders.
 
-**How it helps.** The video packs (#25–27) design films in code; HyperFrames is the renderer underneath — the Motion Video Kit card even notes it works best with HyperFrames. Deterministic output means renders are CI-safe and regression-testable, not one-off artifacts.
+**How it helps.** The video packs (#25–27, #29) design films in code; HyperFrames is the renderer underneath (v1 of Product Launch Motion used it; v2 renders with Playwright). Deterministic output means renders are CI-safe and regression-testable, not one-off artifacts.
 
 **Where it's useful.** Product launch videos, explainers, motion graphics, site tours — any HTML-native video an agent builds.
 
@@ -740,7 +743,28 @@ git clone https://github.com/feitangyuan/onetake.git ~/.claude/skills/onetake
 
 ---
 
-### 29. ECC — the agent harness operating system
+### 29. Product Launch Motion — URL → Dribbble-level launch film
+
+🔗 **https://github.com/AbubakrChan/product-launch-motion** · MIT
+
+**What it is.** A Claude Code skill that turns a product URL into a 60 fps launch film: one morphing shape that never cuts, closed-form springs, a cursor that drives every change, music-first beat grid (numpy), synthesized SFX placed on kick peaks, Playwright subframes + ffmpeg `tmix` motion blur. v2 stack (plain HTML + `seek(t)`); v1 (GSAP + HyperFrames, voiceover-led) kept under `legacy/`.
+
+**How it helps.** Same job as the other video packs, but opinionated creative direction baked in — director stance, DECISION logging, real-data odometers, logo slams on the beat — so the agent stops asking permission for every creative call.
+
+**Where it's useful.** SaaS / product launch films and UI motion reels when you want “paste the URL, get a film.” Best with Opus-class models. Needs Node ≥ 20, Playwright, FFmpeg, Python + numpy.
+
+**Install:** `npx skills add AbubakrChan/product-launch-motion`
+
+Keep v1 alongside for narrated explainers: `npx skills add AbubakrChan/product-launch-motion/legacy`
+
+**Example.**
+> You: “Make a launch video for https://your-website.com”
+> Agent: reads the site, locks a beat grid, builds one HTML `seek(t)` film, contact-sheets per beat, then renders 60 fps with motion blur + mixed SFX.
+
+
+---
+
+### 30. ECC — the agent harness operating system
 
 🔗 **https://github.com/affaan-m/ECC** · ~280k stars · MIT · site: [ecc.tools](https://ecc.tools)
 
