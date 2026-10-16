@@ -12,7 +12,7 @@ Star counts are approximate as of Oct 2026 and move fast on trending repos — t
 - [Quick reference](#quick-reference)
 - [For agents & LLM harnesses — how to build with this stack](#for-agents--llm-harnesses--how-to-build-with-this-stack)
 - [Architecture — where each skill sits](#architecture--where-each-skill-sits)
-- [The stack — 30 skills](#the-stack--30-skills)
+- [The stack — 31 skills](#the-stack--31-skills)
 - [Also worth knowing](#also-worth-knowing)
 - [Install everything at once](#install-everything-at-once)
 - [Push this to GitHub](#push-this-to-github)
@@ -53,6 +53,7 @@ Star counts are approximate as of Oct 2026 and move fast on trending repos — t
 | 28 | [HyperFrames](https://github.com/heygen-com/hyperframes) | HTML-to-video renderer: CLI, catalog, agent skills, deterministic output | Video |
 | 29 | [Product Launch Motion](https://github.com/AbubakrChan/product-launch-motion) | URL → Dribbble-level launch film: one-shape morphs, beat-synced SFX, 60 fps | Video |
 | 30 | [ECC](https://github.com/affaan-m/ECC) | Agent harness OS: agents, skills, hooks, memory, AgentShield | Harness |
+| 31 | [pstack](https://github.com/michael-denyer/pstack-claude) | Rigorous workflows: poteto-mode router, playbooks, delegate + verify | Workflow |
 
 ---
 
@@ -81,6 +82,7 @@ flowchart TB
     subgraph L1["LAYER 1 · WORKFLOW BACKBONE — install first"]
         SP["obra/superpowers<br/>brainstorm → plan → execute<br/>TDD · debugging · code review"]
         ECC["affaan-m/ECC<br/>harness OS · agents · hooks · memory<br/>AgentShield"]
+        PS["michael-denyer/pstack-claude<br/>poteto-mode router · playbooks<br/>plan → delegate → verify"]
     end
     subgraph L2["LAYER 2 · KNOWLEDGE — what the agent knows"]
         UA["Egonex-AI/Understand-Anything<br/>knowledge graph of YOUR codebase"]
@@ -131,6 +133,7 @@ flowchart TB
     SP --> AR
     SP --> REA
     ECC -. optional harness OS beside .-> SP
+    PS -. rigorous workflows beside .-> SP
     REA -. see a feature → rebuild it .-> UX
     UA --> MP
     MP --> CV
@@ -157,11 +160,11 @@ flowchart TB
     UX --> SEO
 ```
 
-**How to read it:** the agent *orchestrates* every build with Layer 0, *plans* with Layer 1 (Superpowers; ECC is the optional full harness OS beside it), *understands* your code, the web, and any app with Layer 2, follows *engineering discipline* in Layer 3, writes *terse, minimal, action-oriented* code via Layer 4, builds *designed* UIs and visuals in Layer 5, *proves it works* in Layer 6, *secures it* in Layer 7, and *ships it to be found* in Layer 8, and crafts *motion films* in Layer 9. Install in layer order — each layer assumes the one above it.
+**How to read it:** the agent *orchestrates* every build with Layer 0, *plans* with Layer 1 (Superpowers; ECC is the optional full harness OS beside it, pstack the rigorous-workflow conductor), *understands* your code, the web, and any app with Layer 2, follows *engineering discipline* in Layer 3, writes *terse, minimal, action-oriented* code via Layer 4, builds *designed* UIs and visuals in Layer 5, *proves it works* in Layer 6, *secures it* in Layer 7, and *ships it to be found* in Layer 8, and crafts *motion films* in Layer 9. Install in layer order — each layer assumes the one above it.
 
 ---
 
-## The stack — 30 skills
+## The stack — 31 skills
 
 ### 1. Superpowers — the workflow backbone
 
@@ -793,6 +796,29 @@ Refresh later: `npx ecc-universal auto-update`. Cursor adapter is project-scoped
 **Example.**
 > You: "Ship the auth refactor safely."
 > Agent (with ECC): picks a planner/reviewer agent pair, runs hook-gated checks, writes a session summary into ECC memory, and AgentShield flags a risky MCP permission before merge.
+
+### 31. pstack — rigorous agent workflows (poteto-mode)
+
+🔗 **https://github.com/michael-denyer/pstack-claude** · ~1.8k stars · MIT
+
+**What it is.** The port of Lauren Tan's pstack — an opinionated Cursor skill stack — for Claude Code, Codex, Pi, GitHub Copilot, OpenCode, Gemini, and Prime Agent. Tell `poteto-mode` your goal and it invokes the right workflow: playbooks cover planning, features, refactoring, performance issues, investigations, prototypes, PR maintenance, shipping, and longer projects. It delegates through `architect` / `arena` / `swarm`, then verifies with `interrogate`, tests, and measurements. Supporting skills include `how`, `why`, and `unslop`. No server or telemetry; scripts run locally, PR tools use your GitHub CLI login.
+
+**How it helps.** Superpowers gives the plan → execute backbone; pstack adds rigor — reproduce the failure first, investigate with `how` / `why`, delegate the fix, then rerun the failing case and hand back the evidence. It keeps code concise, simple, and verified instead of vibes-shipped.
+
+**Where it's useful.** Bugs, refactors, performance issues, PR maintenance, shipping — any job where you want reproduce → investigate → delegate → verify with evidence.
+
+**Install** (Claude Code):
+```text
+/plugin marketplace add michael-denyer/pstack-claude
+/plugin install pstack@pstack-claude
+```
+Codex / Copilot have plugin equivalents; other harnesses clone the repo and symlink `plugins/pstack/skills/*` into `~/.agents/skills/`. No routing hook on generic installs — ask for `poteto-mode` by name.
+
+> ⚠️ Overlap: pstack's playbooks overlap Superpowers' brainstorming / planning / TDD surface. Keep Superpowers as the backbone; use `poteto-mode` when you want the full routed, delegated, verified workflow.
+
+**Example.**
+> You: "Use poteto-mode to fix the search filter resetting when I change pages."
+> Agent (with pstack): reproduces the failure, investigates with `how` and `why`, delegates the fix, then reruns the failing case — and hands back the fix plus the failing and passing evidence.
 
 ---
 
